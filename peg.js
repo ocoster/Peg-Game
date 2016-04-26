@@ -19,6 +19,25 @@
         { y: 4/6, x: 0.8 },
         { y: 3/6, x: 0.9 }
     ];
+    
+    var pegs = [
+            { holeIdx: 0, color: 1 },
+            { holeIdx: 1, color: 1 },
+            { holeIdx: 2, color: 1 },
+            { holeIdx: 3, color: 1 },
+            { holeIdx: 4, color: 1 },
+            { holeIdx: 5, color: 1 },
+            { holeIdx: 6, color: 1 },
+            { holeIdx: 7, color: 1 },
+            { holeIdx: 9, color: 0 },
+            { holeIdx: 10, color: 0 },
+            { holeIdx: 11, color: 0 },
+            { holeIdx: 12, color: 0 },
+            { holeIdx: 13, color: 0 },
+            { holeIdx: 14, color: 0 },
+            { holeIdx: 15, color: 0 },
+            { holeIdx: 16, color: 0 }
+    ];
 
     var board = document.getElementById('board');
     var ctx = board.getContext('2d');
@@ -32,6 +51,7 @@
     function drawBoard(){
         drawBackground();
         drawPegHoles();
+        drawPegs();
     }
     
     function drawBackground(){
@@ -63,6 +83,25 @@
        ctx.arc(x, y, 8, 0, 2 * Math.PI);
        ctx.stroke();
        ctx.fillStyle = oldFillStyle; 
+    }
+    
+    function drawPegs(){
+       var oldFillStyle = ctx.fillStyle;
+       var oldFilter = ctx.filter;
+       
+       pegs.forEach(function(item, idx, arr){
+           ctx.fillStyle = item.color ? 'red' : 'green';
+           drawPeg(width * pegHoleRelativeCoordinates[item.holeIdx].x, height * pegHoleRelativeCoordinates[item.holeIdx].y);
+       });
+       
+       ctx.filter = oldFilter;
+       ctx.fillStyle = oldFillStyle; 
+    }
+    
+    function drawPeg(x, y){
+        ctx.beginPath();
+        ctx.arc(x, y, 9, 0, 2 * Math.PI);
+        ctx.fill(); 
     }
 })();
 
