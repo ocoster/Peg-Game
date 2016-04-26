@@ -2,24 +2,24 @@
     var color1 = Symbol('color1');
     var color2 = Symbol('color2');
     
-    var pegHoleRelativeCoordinates = [
-        { y: 3/6, x: 0.1 },
-        { y: 2/6, x: 0.2 },
-        { y: 4/6, x: 0.2 },
-        { y: 1/6, x: 0.3 },
-        { y: 3/6, x: 0.3 },
-        { y: 5/6, x: 0.3 },
-        { y: 2/6, x: 0.4 },
-        { y: 4/6, x: 0.4 },
-        { y: 3/6, x: 0.5 },
-        { y: 2/6, x: 0.6 },
-        { y: 4/6, x: 0.6 },
-        { y: 1/6, x: 0.7 },
-        { y: 3/6, x: 0.7 },
-        { y: 5/6, x: 0.7 },
-        { y: 2/6, x: 0.8 },
-        { y: 4/6, x: 0.8 },
-        { y: 3/6, x: 0.9 }
+    var pegHoleData = [
+        { y: 3/6, x: 0.1, color1Moves: [1, 2], color2Moves: [] },
+        { y: 2/6, x: 0.2, color1Moves: [3, 4], color2Moves: [0] },
+        { y: 4/6, x: 0.2, color1Moves: [4, 5], color2Moves: [0] },
+        { y: 1/6, x: 0.3, color1Moves: [6], color2Moves: [1] },
+        { y: 3/6, x: 0.3, color1Moves: [6, 7], color2Moves: [1, 2] },
+        { y: 5/6, x: 0.3, color1Moves: [7], color2Moves: [2] },
+        { y: 2/6, x: 0.4, color1Moves: [8], color2Moves: [3, 4] },
+        { y: 4/6, x: 0.4, color1Moves: [8], color2Moves: [4, 5] },
+        { y: 3/6, x: 0.5, color1Moves: [9, 10], color2Moves: [6, 7] },
+        { y: 2/6, x: 0.6, color1Moves: [11, 12], color2Moves: [8] },
+        { y: 4/6, x: 0.6, color1Moves: [12, 13], color2Moves: [8] },
+        { y: 1/6, x: 0.7, color1Moves: [14], color2Moves: [9] },
+        { y: 3/6, x: 0.7, color1Moves: [14, 15], color2Moves: [9, 10] },
+        { y: 5/6, x: 0.7, color1Moves: [15], color2Moves: [10] },
+        { y: 2/6, x: 0.8, color1Moves: [16], color2Moves: [11, 12] },
+        { y: 4/6, x: 0.8, color1Moves: [16], color2Moves: [12, 13] },
+        { y: 3/6, x: 0.9, color1Moves: [], color2Moves: [14, 15] }
     ];
     
     var pegs = [
@@ -67,7 +67,7 @@
        
        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
        
-       pegHoleRelativeCoordinates.forEach(function(item, idx, arr){
+       pegHoleData.forEach(function(item, idx, arr){
            drawPegHole(width * item.x, height * item.y);
        });
        
@@ -93,7 +93,7 @@
        
        pegs.forEach(function(item, idx, arr){
            ctx.fillStyle = item.color == color1 ? 'red' : 'green';
-           drawPeg(width * pegHoleRelativeCoordinates[item.holeIdx].x, height * pegHoleRelativeCoordinates[item.holeIdx].y);
+           drawPeg(width * pegHoleData[item.holeIdx].x, height * pegHoleData[item.holeIdx].y);
        });
        
        ctx.filter = oldFilter;
