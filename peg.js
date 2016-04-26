@@ -1,19 +1,23 @@
-var board = document.getElementById('board');
-var ctx = board.getContext('2d');
+(function(){
 
-ctx.rect(0, 0, 200, 100);
-ctx.fillStyle = 'blue';
-ctx.fill();
+    var board = document.getElementById('board');
+    var ctx = board.getContext('2d');
 
-function canvasClick(ev){
-    // draw a red circle here
-    var oldFillStyle = ctx.fillStyle;
-    
-    ctx.fillStyle = 'red';
-    ctx.beginPath();
-    ctx.arc(ev.clientX, ev.clientY, 5, 0, 2 * Math.PI);
+    ctx.rect(0, 0, 200, 100);
+    ctx.fillStyle = 'blue';
     ctx.fill();
-    ctx.fillStyle = oldFillStyle;
-}
 
-board.addEventListener('click', canvasClick, false);
+    function canvasClick(ev){
+        // draw a red circle here
+        var oldFillStyle = ctx.fillStyle;
+        
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        ctx.arc(ev.clientX, ev.clientY, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = oldFillStyle;
+    }
+
+    board.addEventListener('click', canvasClick, false);    
+})();
+
