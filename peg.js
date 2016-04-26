@@ -54,18 +54,5 @@
         ctx.arc(x, y, 7, 0, 2 * Math.PI);
         ctx.fill(); 
     }
-
-    function canvasClick(ev){
-        // draw a red circle here
-        var oldFillStyle = ctx.fillStyle;
-        
-        ctx.fillStyle = 'red';
-        ctx.beginPath();
-        ctx.arc(ev.clientX, ev.clientY, 5, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.fillStyle = oldFillStyle;
-    }
-
-    board.addEventListener('click', canvasClick, false);
 })();
 
