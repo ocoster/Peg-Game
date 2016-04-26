@@ -1,5 +1,7 @@
 (function(){
-
+    var color1 = Symbol('color1');
+    var color2 = Symbol('color2');
+    
     var pegHoleRelativeCoordinates = [
         { y: 3/6, x: 0.1 },
         { y: 2/6, x: 0.2 },
@@ -21,22 +23,22 @@
     ];
     
     var pegs = [
-            { holeIdx: 0, color: 1 },
-            { holeIdx: 1, color: 1 },
-            { holeIdx: 2, color: 1 },
-            { holeIdx: 3, color: 1 },
-            { holeIdx: 4, color: 1 },
-            { holeIdx: 5, color: 1 },
-            { holeIdx: 6, color: 1 },
-            { holeIdx: 7, color: 1 },
-            { holeIdx: 9, color: 0 },
-            { holeIdx: 10, color: 0 },
-            { holeIdx: 11, color: 0 },
-            { holeIdx: 12, color: 0 },
-            { holeIdx: 13, color: 0 },
-            { holeIdx: 14, color: 0 },
-            { holeIdx: 15, color: 0 },
-            { holeIdx: 16, color: 0 }
+            { holeIdx: 0, color: color1 },
+            { holeIdx: 1, color: color1 },
+            { holeIdx: 2, color: color1 },
+            { holeIdx: 3, color: color1 },
+            { holeIdx: 4, color: color1 },
+            { holeIdx: 5, color: color1 },
+            { holeIdx: 6, color: color1 },
+            { holeIdx: 7, color: color1 },
+            { holeIdx: 9, color: color2 },
+            { holeIdx: 10, color: color2 },
+            { holeIdx: 11, color: color2 },
+            { holeIdx: 12, color: color2 },
+            { holeIdx: 13, color: color2 },
+            { holeIdx: 14, color: color2 },
+            { holeIdx: 15, color: color2 },
+            { holeIdx: 16, color: color2 }
     ];
 
     var board = document.getElementById('board');
@@ -90,7 +92,7 @@
        var oldFilter = ctx.filter;
        
        pegs.forEach(function(item, idx, arr){
-           ctx.fillStyle = item.color ? 'red' : 'green';
+           ctx.fillStyle = item.color == color1 ? 'red' : 'green';
            drawPeg(width * pegHoleRelativeCoordinates[item.holeIdx].x, height * pegHoleRelativeCoordinates[item.holeIdx].y);
        });
        
