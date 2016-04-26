@@ -53,6 +53,12 @@
         ctx.beginPath();
         ctx.arc(x, y, 7, 0, 2 * Math.PI);
         ctx.fill(); 
+        
+       var oldFillStyle = ctx.fillStyle;
+       ctx.fillStyle = 'black';
+       ctx.arc(x, y, 8, 0, 2 * Math.PI);
+       ctx.stroke();
+       ctx.fillStyle = oldFillStyle; 
     }
 })();
 
