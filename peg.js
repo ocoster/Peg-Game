@@ -3,9 +3,12 @@
     var board = document.getElementById('board');
     var ctx = board.getContext('2d');
 
-    ctx.rect(0, 0, 200, 100);
-    ctx.fillStyle = 'blue';
-    ctx.fill();
+    var bgImage = new Image();
+    bgImage.addEventListener('load', drawBackground, false);
+    bgImage.src = 'woodgrain.jpg';
+    function drawBackground(){
+        ctx.drawImage(bgImage, 0, 0);        
+    }
 
     function canvasClick(ev){
         // draw a red circle here
@@ -18,6 +21,6 @@
         ctx.fillStyle = oldFillStyle;
     }
 
-    board.addEventListener('click', canvasClick, false);    
+    board.addEventListener('click', canvasClick, false);
 })();
 
