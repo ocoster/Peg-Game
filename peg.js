@@ -40,6 +40,8 @@
             { holeIdx: 15, color: color2 },
             { holeIdx: 16, color: color2 }
     ];
+    
+    var emptyPegIdx = 8;
 
     var board = document.getElementById('board');
     var ctx = board.getContext('2d');
@@ -67,7 +69,7 @@
        
        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
        
-       pegHoleData.forEach(function(item, idx, arr){
+       pegHoleData.forEach(function(item){
            drawPegHole(width * item.x, height * item.y);
        });
        
@@ -91,7 +93,7 @@
        var oldFillStyle = ctx.fillStyle;
        var oldFilter = ctx.filter;
        
-       pegs.forEach(function(item, idx, arr){
+       pegs.forEach(function(item){
            ctx.fillStyle = item.color == color1 ? 'red' : 'green';
            drawPeg(width * pegHoleData[item.holeIdx].x, height * pegHoleData[item.holeIdx].y);
        });
@@ -106,12 +108,67 @@
         ctx.fill(); 
     }
     
+    function getPegAtHole(idx){
+        if (idx === undefined)
+            return undefined;
+        if (idx === emptyPegIdx)
+            return undefined;
+        
+        var pegAtHole = pegs.filter(function(item){
+            return item.holeIdx === idx;
+        });
+        
+        return pegAtHole[0];
+    }
+    
+    function movePeg(peg){
+        var moves = pegHoleData[peg.holeIdx].color1Moves;
+        if(peg.color == color2){
+            moves = pegHoleData[peg.holeIdx].color2Moves
+        } 
+        
+        if(moves.up == emptyPegIdx) {
+            var temp = emptyPegIdx;
+            emptyPegIdx = peg.holeIdx;
+            peg.holeIdx = temp; 
+        } else if (moves.down == emptyPegIdx) {
+            var temp = emptyPegIdx;
+            emptyPegIdx = peg.holeIdx;
+            peg.holeIdx = temp;
+        } else {
+            var upPeg = getPegAtHole(moves.up);
+            var downPeg = getPegAtHole(moves.down);
+            
+            var movesForUpPeg = upPeg ? pegHoleData[upPeg.holeIdx].color1Moves : {};
+            if(upPeg && peg.color == color2){
+                movesForUpPeg = pegHoleData[upPeg.holeIdx].color2Moves
+            }
+            
+            var movesForDownPeg = downPeg ? pegHoleData[downPeg.holeIdx].color1Moves : {};
+            if(downPeg && peg.color == color2){
+                movesForDownPeg = pegHoleData[downPeg.holeIdx].color2Moves
+            }
+            
+            if (upPeg && upPeg.color != peg.color && movesForUpPeg.up === emptyPegIdx){
+                var temp = emptyPegIdx;
+                emptyPegIdx = peg.holeIdx;
+                peg.holeIdx = temp;
+            } else if (downPeg && downPeg.color != peg.color && movesForDownPeg.down === emptyPegIdx){
+                var temp = emptyPegIdx;
+                emptyPegIdx = peg.holeIdx;
+                peg.holeIdx = temp;
+            }            
+        }
+        
+        drawBoard();
+    }
+    
     board.addEventListener('click', function(ev){
         var target = ev.target;
         var x = ev.clientX - target.offsetLeft, y = ev.clientY - target.offsetTop;
         
         // which peg have I clicked? What color?
-        var found = pegs.filter(function(item, idx, arr){
+        var found = pegs.filter(function(item){
             var pegDetails = pegHoleData[item.holeIdx];
             
             var dist = Math.pow(x - width * pegDetails.x, 2) + Math.pow(y - height * pegDetails.y, 2);
@@ -120,10 +177,8 @@
         });
         
         if(found.length){
-            console.log(found[0]);
-        } else {
-            console.log('nothing hit');
-        }
+            movePeg(found[0]);
+        } 
         
     }, false);
 })();
