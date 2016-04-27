@@ -3,23 +3,23 @@
     var color2 = Symbol('color2');
     
     var pegHoleData = [
-        { y: 3/6, x: 0.1, color1Moves: [1, 2], color2Moves: [] },
-        { y: 2/6, x: 0.2, color1Moves: [3, 4], color2Moves: [0] },
-        { y: 4/6, x: 0.2, color1Moves: [4, 5], color2Moves: [0] },
-        { y: 1/6, x: 0.3, color1Moves: [6], color2Moves: [1] },
-        { y: 3/6, x: 0.3, color1Moves: [6, 7], color2Moves: [1, 2] },
-        { y: 5/6, x: 0.3, color1Moves: [7], color2Moves: [2] },
-        { y: 2/6, x: 0.4, color1Moves: [8], color2Moves: [3, 4] },
-        { y: 4/6, x: 0.4, color1Moves: [8], color2Moves: [4, 5] },
-        { y: 3/6, x: 0.5, color1Moves: [9, 10], color2Moves: [6, 7] },
-        { y: 2/6, x: 0.6, color1Moves: [11, 12], color2Moves: [8] },
-        { y: 4/6, x: 0.6, color1Moves: [12, 13], color2Moves: [8] },
-        { y: 1/6, x: 0.7, color1Moves: [14], color2Moves: [9] },
-        { y: 3/6, x: 0.7, color1Moves: [14, 15], color2Moves: [9, 10] },
-        { y: 5/6, x: 0.7, color1Moves: [15], color2Moves: [10] },
-        { y: 2/6, x: 0.8, color1Moves: [16], color2Moves: [11, 12] },
-        { y: 4/6, x: 0.8, color1Moves: [16], color2Moves: [12, 13] },
-        { y: 3/6, x: 0.9, color1Moves: [], color2Moves: [14, 15] }
+        { y: 3/6, x: 0.1, color1Moves: { up: 1, down: 2 }, color2Moves: {} },
+        { y: 2/6, x: 0.2, color1Moves: { up: 3, down: 4 }, color2Moves: { down: 0 } },
+        { y: 4/6, x: 0.2, color1Moves: { up: 4, down: 5 }, color2Moves: { up : 0 } },
+        { y: 1/6, x: 0.3, color1Moves: { down: 6 }, color2Moves: { down: 1 } },
+        { y: 3/6, x: 0.3, color1Moves: { up: 6, down: 7 }, color2Moves: { up: 1, down: 2 } },
+        { y: 5/6, x: 0.3, color1Moves: { up: 7 }, color2Moves: { up: 2 } },
+        { y: 2/6, x: 0.4, color1Moves: { down: 8 }, color2Moves: { up: 3, down: 4 } },
+        { y: 4/6, x: 0.4, color1Moves: { up: 8 }, color2Moves: { up: 4, down: 5 } },
+        { y: 3/6, x: 0.5, color1Moves: { up: 9, down: 10 }, color2Moves: { up: 6, down: 7 } },
+        { y: 2/6, x: 0.6, color1Moves: { up: 11, down: 12 }, color2Moves: { down: 8 } },
+        { y: 4/6, x: 0.6, color1Moves: { up: 12, down: 13 }, color2Moves: { up: 8 } },
+        { y: 1/6, x: 0.7, color1Moves: { down: 14 }, color2Moves: { down: 9 } },
+        { y: 3/6, x: 0.7, color1Moves: { up: 14, down: 15 }, color2Moves: { up: 9, down: 10 } },
+        { y: 5/6, x: 0.7, color1Moves: { down: 15 }, color2Moves: { up: 10 } },
+        { y: 2/6, x: 0.8, color1Moves: { down: 16 }, color2Moves: { up: 11, down: 12 } },
+        { y: 4/6, x: 0.8, color1Moves: { up: 16 }, color2Moves: { up: 12, down: 13 } },
+        { y: 3/6, x: 0.9, color1Moves: {}, color2Moves: { up: 14, down: 15 } }
     ];
     
     var pegs = [
@@ -105,5 +105,33 @@
         ctx.arc(x, y, 9, 0, 2 * Math.PI);
         ctx.fill(); 
     }
+    
+    board.addEventListener('click', function(ev){
+        var target = ev.target;
+        var x = ev.clientX - target.offsetLeft, y = ev.clientY - target.offsetTop;
+        
+        // which peg have I clicked? What color?
+        var found = undefined;
+        pegs.forEach(function(item, idx, arr){
+            if (found){
+                return;
+            }
+            
+            var pegDetails = pegHoleData[item.holeIdx];
+            
+            var dist = Math.pow(x - width * pegDetails.x, 2) + Math.pow(y - height * pegDetails.y, 2);
+            
+            if(dist <= 91){
+                found = item;
+            }
+        });
+        
+        if(found){
+            console.log(found);
+        } else {
+            console.log('nothing hit');
+        }
+        
+    }, false);
 })();
 
