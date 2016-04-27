@@ -111,23 +111,16 @@
         var x = ev.clientX - target.offsetLeft, y = ev.clientY - target.offsetTop;
         
         // which peg have I clicked? What color?
-        var found = undefined;
-        pegs.forEach(function(item, idx, arr){
-            if (found){
-                return;
-            }
-            
+        var found = pegs.filter(function(item, idx, arr){
             var pegDetails = pegHoleData[item.holeIdx];
             
             var dist = Math.pow(x - width * pegDetails.x, 2) + Math.pow(y - height * pegDetails.y, 2);
             
-            if(dist <= 91){
-                found = item;
-            }
+            return dist <= 91;
         });
         
-        if(found){
-            console.log(found);
+        if(found.length){
+            console.log(found[0]);
         } else {
             console.log('nothing hit');
         }
