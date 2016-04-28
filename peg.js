@@ -47,6 +47,7 @@
     var ctx = board.getContext('2d');
     
     var width = board.width, height = board.height;
+    var pegHoleRadius = 7, borderWidth = 1, pegRadius = pegHoleRadius + 2 * borderWidth;
 
     var bgImage = new Image();
     bgImage.addEventListener('load', drawBoard, false);
@@ -79,12 +80,12 @@
     
     function drawPegHole(x, y){
         ctx.beginPath();
-        ctx.arc(x, y, 7, 0, 2 * Math.PI);
+        ctx.arc(x, y, pegHoleRadius, 0, 2 * Math.PI);
         ctx.fill(); 
         
        var oldFillStyle = ctx.fillStyle;
        ctx.fillStyle = 'black';
-       ctx.arc(x, y, 8, 0, 2 * Math.PI);
+       ctx.arc(x, y, pegHoleRadius + borderWidth, 0, 2 * Math.PI);
        ctx.stroke();
        ctx.fillStyle = oldFillStyle; 
     }
@@ -104,7 +105,7 @@
     
     function drawPeg(x, y){
         ctx.beginPath();
-        ctx.arc(x, y, 9, 0, 2 * Math.PI);
+        ctx.arc(x, y, pegRadius, 0, 2 * Math.PI);
         ctx.fill(); 
     }
     
@@ -186,7 +187,7 @@
             
             var dist = Math.pow(x - width * pegDetails.x, 2) + Math.pow(y - height * pegDetails.y, 2);
             
-            return dist <= 91;
+            return dist <= pegRadius * pegRadius;
         });
         
         if(found.length){
