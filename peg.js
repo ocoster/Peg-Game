@@ -121,43 +121,56 @@
         return pegAtHole[0];
     }
     
-    function movePeg(peg){
-        var moves = pegHoleData[peg.holeIdx].color1Moves;
-        if(peg.color == color2){
-            moves = pegHoleData[peg.holeIdx].color2Moves
+    function movePeg(peg)
+    {
+        var temp = emptyPegIdx;
+        emptyPegIdx = peg.holeIdx;
+        peg.holeIdx = temp; 
+    }
+    
+    function getValidMoves(peg, color){
+        if(!peg){
+            return {};
+        }
+        
+        if(!color){
+            color = peg.color;
+        }
+        
+        if(color == color1){
+            return pegHoleData[peg.holeIdx].color1Moves;
+        } else if(color == color2){
+            return pegHoleData[peg.holeIdx].color2Moves
         } 
         
-        if(moves.up == emptyPegIdx) {
-            var temp = emptyPegIdx;
-            emptyPegIdx = peg.holeIdx;
-            peg.holeIdx = temp; 
-        } else if (moves.down == emptyPegIdx) {
-            var temp = emptyPegIdx;
-            emptyPegIdx = peg.holeIdx;
-            peg.holeIdx = temp;
+        return {};
+    }
+    
+    function hasValidMove(peg){
+        var moves = getValidMoves(peg);
+        
+        if(moves.up == emptyPegIdx || moves.down == emptyPegIdx) {
+            return true;
         } else {
             var upPeg = getPegAtHole(moves.up);
             var downPeg = getPegAtHole(moves.down);
             
-            var movesForUpPeg = upPeg ? pegHoleData[upPeg.holeIdx].color1Moves : {};
-            if(upPeg && peg.color == color2){
-                movesForUpPeg = pegHoleData[upPeg.holeIdx].color2Moves
-            }
-            
-            var movesForDownPeg = downPeg ? pegHoleData[downPeg.holeIdx].color1Moves : {};
-            if(downPeg && peg.color == color2){
-                movesForDownPeg = pegHoleData[downPeg.holeIdx].color2Moves
-            }
+            var movesForUpPeg = getValidMoves(upPeg, peg.color);
+            var movesForDownPeg = getValidMoves(downPeg, peg.color);
             
             if (upPeg && upPeg.color != peg.color && movesForUpPeg.up === emptyPegIdx){
-                var temp = emptyPegIdx;
-                emptyPegIdx = peg.holeIdx;
-                peg.holeIdx = temp;
+                return true;
             } else if (downPeg && downPeg.color != peg.color && movesForDownPeg.down === emptyPegIdx){
-                var temp = emptyPegIdx;
-                emptyPegIdx = peg.holeIdx;
-                peg.holeIdx = temp;
+                return true;
             }            
+        }
+        
+        return false;
+    }
+    
+    function movePegIfValidMoveExists(peg){
+        if(hasValidMove(peg)){
+            movePeg(peg);
         }
         
         drawBoard();
@@ -177,7 +190,7 @@
         });
         
         if(found.length){
-            movePeg(found[0]);
+            movePegIfValidMoveExists(found[0]);
         } 
         
     }, false);
