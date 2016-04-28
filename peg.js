@@ -16,7 +16,7 @@
         { y: 4/6, x: 0.6, color1Moves: { up: 12, down: 13 }, color2Moves: { up: 8 } },
         { y: 1/6, x: 0.7, color1Moves: { down: 14 }, color2Moves: { down: 9 } },
         { y: 3/6, x: 0.7, color1Moves: { up: 14, down: 15 }, color2Moves: { up: 9, down: 10 } },
-        { y: 5/6, x: 0.7, color1Moves: { down: 15 }, color2Moves: { up: 10 } },
+        { y: 5/6, x: 0.7, color1Moves: { up: 15 }, color2Moves: { up: 10 } },
         { y: 2/6, x: 0.8, color1Moves: { down: 16 }, color2Moves: { up: 11, down: 12 } },
         { y: 4/6, x: 0.8, color1Moves: { up: 16 }, color2Moves: { up: 12, down: 13 } },
         { y: 3/6, x: 0.9, color1Moves: {}, color2Moves: { up: 14, down: 15 } }
@@ -56,6 +56,7 @@
     function drawBoard(){
         drawBackground();
         drawPegHoles();
+        drawBoardLines()
         drawPegs();
     }
     
@@ -66,13 +67,11 @@
     
     function drawPegHoles(){
        var oldFillStyle = ctx.fillStyle;
-       var oldFilter = ctx.filter;
        
        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
        
        drawPegHole(width * pegHoleData[emptyPegIdx].x, height * pegHoleData[emptyPegIdx].y);
        
-       ctx.filter = oldFilter;
        ctx.fillStyle = oldFillStyle; 
     }
     
@@ -88,16 +87,48 @@
        ctx.fillStyle = oldFillStyle; 
     }
     
+    function drawBoardLines(){
+
+       var oldFillStyle = ctx.fillStyle;
+       var oldLineWidth = ctx.lineWidth;
+       ctx.fillStyle = 'black';
+       
+       ctx.beginPath();
+       ctx.lineWidth = borderWidth * 2;
+       var dX = (pegHoleData[0].x - pegHoleData[1].x) * width;
+       var dY = (pegHoleData[0].y - pegHoleData[1].y) * height;
+       var len = Math.sqrt(dX * dX + dY * dY);
+       
+       var dx = (pegHoleRadius + borderWidth) / len * dX;
+       var dy = (pegHoleRadius + borderWidth) / len * dY;
+       
+       pegHoleData.forEach(function(item){
+           if(item.color1Moves.up){
+               var upPegData = pegHoleData[item.color1Moves.up];
+               ctx.moveTo(item.x * width - dx, item.y * height - dy); 
+               ctx.lineTo(upPegData.x * width + dx, upPegData.y * height + dy);
+           }
+           if(item.color1Moves.down){
+               var downPegData = pegHoleData[item.color1Moves.down];
+               ctx.moveTo(item.x * width - dx, item.y * height + dy);
+               ctx.lineTo(downPegData.x * width + dx, downPegData.y * height - dy);
+           }
+       });
+ 
+       ctx.stroke();
+       
+       ctx.lineWidth = oldLineWidth;
+       ctx.fillStyle = oldFillStyle;
+    }
+    
     function drawPegs(){
        var oldFillStyle = ctx.fillStyle;
-       var oldFilter = ctx.filter;
        
        pegs.forEach(function(item){
            ctx.fillStyle = item.color == color1 ? 'red' : 'green';
            drawPeg(width * pegHoleData[item.holeIdx].x, height * pegHoleData[item.holeIdx].y);
        });
        
-       ctx.filter = oldFilter;
        ctx.fillStyle = oldFillStyle; 
     }
     
