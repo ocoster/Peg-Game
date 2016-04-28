@@ -70,9 +70,7 @@
        
        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
        
-       pegHoleData.forEach(function(item){
-           drawPegHole(width * item.x, height * item.y);
-       });
+       drawPegHole(width * pegHoleData[emptyPegIdx].x, height * pegHoleData[emptyPegIdx].y);
        
        ctx.filter = oldFilter;
        ctx.fillStyle = oldFillStyle; 
