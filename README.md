@@ -21,4 +21,11 @@ Still to do:
 - Tell player when out of moves.
 - Tell player when they won.
 
+
+Additional possible enhancements:
+
+- When hovering over a peg, highlight it and its valid move (if one exists)
+- When hovering over a peg of a color, add arrows showing the valid move direction
+- Sound - for invlid move, valid move, out of moves and win 
+
 Pull requests welcome :)
