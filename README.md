@@ -11,7 +11,7 @@ Rules:
 - Can only move along the lines.
 - Green can only move towards the left, red can only move towards the right.
 - Can move dirctly to empty hole.
-- Can hop over other color to an empty hole.
+- Can hop over one peg of other color to an empty hole.
 
 Playable but unfinished.
 
