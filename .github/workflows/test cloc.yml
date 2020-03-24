@@ -26,7 +26,7 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: cloc
-    - run: cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$"
+    - run: cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" > loc.txt
     
     - name: Upload munging  output as a build artifact
       uses: actions/upload-artifact@v1
