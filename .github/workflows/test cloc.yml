@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Count Lines of Code (cloc)
-      uses: djdefi/cloc-action@bec6930e
+      uses: djdefi/cloc-action@master
       
     - uses: actions/download-artifact@v1
       with:
