@@ -16,6 +16,12 @@ jobs:
     - name: Count Lines of Code (cloc)
       uses: djdefi/cloc-action@master
       
+    - name: Upload cloc output as a build artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: cloc
+        path: cloc.txt
+        
     - uses: actions/download-artifact@v1
       with:
         name: cloc
