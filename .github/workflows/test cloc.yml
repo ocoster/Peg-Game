@@ -25,4 +25,4 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
         name: cloc
-    - run: cat cloc | tail -2 | head -1 | grep -oE "[0-9]+$"
+    - run: cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$"
