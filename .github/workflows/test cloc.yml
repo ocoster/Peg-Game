@@ -15,3 +15,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Count Lines of Code (cloc)
       uses: djdefi/cloc-action@2
+    - uses: actions/download-artifact@v1
+        with:
+        name: cloc
+    - run: cat cloc | tail -2 | head -1 | grep -oE "[0-9]+$"
