@@ -29,12 +29,11 @@ jobs:
     - name: set environment variables
       env:
         NUM: 42
-        REP: ${{ github.repository }}
+        REPO: ${{ github.repository }}
         DATE: $( date -u --iso-8601=seconds ) 
       run: |
         echo "::set-env name=LOC::$( cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" )"
         echo "::set-env name=TSTAMP::$( date -u --iso-8601=seconds )"
-        echo "::set-env name=REPO::${{ github.repository }}"
         set TEST=11
         echo $LOC
         echo $TSTAMP
@@ -42,7 +41,7 @@ jobs:
         echo $NUM
         echo $REP
         echo $DATE
-        echo '{ "loc": '$LOC', "time": "$TSTAMP", "repo": "$REPO" }'
+        echo '{ "loc": '$LOC', "time": "'$(date -u --iso-8601=seconds)'", "repo": "$REPO" }'
      #   echo $JSON
     #- run: echo "::set-env name=JSON::$({{ 'loc': $LOC, 'time': '$TSTAMP', 'repo': '$REPO' }})"
     #- run: echo ${{ toJSON(env) }}
