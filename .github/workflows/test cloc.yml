@@ -43,4 +43,4 @@ jobs:
     - name: Send to API
       env:
         endpoint: ${{ secrets.endpoint }}
-      run: curl -d @loc.json $endpoint
+      run: curl --header "Content-Type: application/json" -d @loc.json $endpoint
