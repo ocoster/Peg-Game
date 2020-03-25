@@ -30,7 +30,7 @@ jobs:
       env:
         REPO: ${{ github.repository }}
       run: |
-        echo '{ "loc": '$( cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" )', "time": "'$(date -u --iso-8601=seconds)'", "repo": "'$REPO'" }'
+        echo '{ "loc": '$( cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" )', "time": "'$(date -u --iso-8601=seconds)'", "repo": "'$REPO'" }' > loc.json
     - name: Upload JSON
       uses: actions/upload-artifact@v1
       with:
