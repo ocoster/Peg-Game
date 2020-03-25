@@ -22,22 +22,25 @@ jobs:
         name: cloc
         path: cloc.txt
         
-    - name: Extract total loc
+    - name: Get cloc output
       uses: actions/download-artifact@v1
       with:
         name: cloc
-    - name: set environment variables
+    - name: Build JSON
       env:
-        LOC: 42
         REPO: ${{ github.repository }}
-        DATE: $( date -u --iso-8601=seconds ) 
       run: |
-        #echo "::set-env name=LOC::$( cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" )"
-        echo "::set-env name=TSTAMP::$( date -u --iso-8601=seconds )"
-        echo $LOC
-        echo $DATE
-        echo '{ "loc": '$LOC', "time": "'$(date -u --iso-8601=seconds)'", "repo": "'$REPO'" }'
-     #   echo $JSON
+        echo '{ "loc": '$( cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" )', "time": "'$(date -u --iso-8601=seconds)'", "repo": "'$REPO'" }'
+    - name: Upload JSON
+      uses: actions/upload-artifact@v1
+      with:
+        name: JSON
+        path: loc.json
+    - name: Get JSON
+      uses: actions/download-artifact@v1
+      with:
+        name: JSON
+    #   echo $JSON
     #- run: echo "::set-env name=JSON::$({{ 'loc': $LOC, 'time': '$TSTAMP', 'repo': '$REPO' }})"
     #- run: echo ${{ toJSON(env) }}
     #- env:
