@@ -26,9 +26,9 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: cloc
-    - run: echo "::set-env name=LOC::${{ cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" }}
-    - run: echo "::set-env name=TSTAMP::${{ date -u --iso-8601=seconds }}
-    - run: echo "::set-env name=REPO::${{ github.repository }}
+    - run: echo "::set-env name=LOC::${{ cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" }}"
+    - run: echo "::set-env name=TSTAMP::${{ date -u --iso-8601=seconds }}"
+    - run: echo "::set-env name=REPO::${{ github.repository }}"
     
     #- env:
     #    LOC: ${{ cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" }}
