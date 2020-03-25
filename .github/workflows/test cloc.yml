@@ -32,7 +32,7 @@ jobs:
         echo "::set-env name=run.time::$( date -u --iso-8601=seconds )"
         echo "::set-env name=run.repo::${{ github.repository }}"
         echo ::set-env name=JSON::$("{ 'loc': $LOC, 'time': '$TSTAMP', 'repo': '$REPO' }")
-        echo $JSON
+        echo ${{ toJSON(env) }}
     #- run: echo "::set-env name=JSON::$({{ 'loc': $LOC, 'time': '$TSTAMP', 'repo': '$REPO' }})"
     #- run: echo ${{ toJSON(env) }}
     #- env:
