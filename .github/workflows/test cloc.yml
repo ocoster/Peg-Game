@@ -28,11 +28,11 @@ jobs:
         name: cloc
     - name: set environment variables
       run: |
-        echo "::set-env name=run.loc::$( cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" )"
-        echo "::set-env name=run.time::$( date -u --iso-8601=seconds )"
-        echo "::set-env name=run.repo::${{ github.repository }}"
+        echo "::set-env name=LOC::$( cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" )"
+        echo "::set-env name=TSTAMP::$( date -u --iso-8601=seconds )"
+        echo "::set-env name=REPO::${{ github.repository }}"
         echo ::set-env name=JSON::$("{ 'loc': $LOC, 'time': '$TSTAMP', 'repo': '$REPO' }")
-        echo ${{ toJSON(env) }}
+        echo $JSON
     #- run: echo "::set-env name=JSON::$({{ 'loc': $LOC, 'time': '$TSTAMP', 'repo': '$REPO' }})"
     #- run: echo ${{ toJSON(env) }}
     #- env:
