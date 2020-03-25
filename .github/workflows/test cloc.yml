@@ -26,10 +26,18 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: cloc
-    - run: cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" > loc.txt
-    
-    - name: Upload munging  output as a build artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: loc
-        path: loc.txt
+    - env:
+        LOC: ${{ cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" }}
+        TSTAMP: ${{ date -u --iso-8601=seconds }}
+        REPO: github.repository
+        JSON: "{ 'loc': $LOC, 'time': '$TSTAMP', 'repo': '$REPO' }"
+    - run: echo $JSON 
+    #- run: echo "::set-env name=JSON::$('{"loc": '"$LOC"'}')"
+    #- run: echo '{"loc": '$LOC'}'
+    #- run: cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" > loc.txt
+    #- run: echo '{"loc": '"$LOC"', "time": "'"$(date -u --iso-8601=seconds)"'", "repo": "repo-name"}'
+    #- name: Upload munging  output as a build artifact
+    #  uses: actions/upload-artifact@v1
+    #  with:
+    #    name: loc
+    #    path: loc.txt
