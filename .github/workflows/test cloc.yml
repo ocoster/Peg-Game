@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Count Lines of Code (cloc)
-      run: echo cloc $(git rev-parse HEAD) -json | tee -a cloc.json
+      run: echo 'cloc $(git rev-parse HEAD) -json | tee -a cloc.json'
     - name: Upload cloc output as a build artifact
       uses: actions/upload-artifact@v1
       with:
