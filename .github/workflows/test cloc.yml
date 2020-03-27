@@ -22,8 +22,8 @@ jobs:
       with:
         name: cloc
         path: cloc.json
-  #  - name: Send to API
-  #    env:
-  #      endpoint: ${{ secrets.endpoint }}
-  #      reponame: ${{ github.repository }}
-  #    run: 'curl --header "Content-Type: application/json" -d @cloc.json $endpoint?$reponame'
+    - name: Send to API
+      env:
+        endpoint: ${{ secrets.endpoint }}
+        reponame: ${{ github.repository }}
+      run: 'curl --header "Content-Type: application/json" -d @cloc.json $endpoint?repo=$reponame'
