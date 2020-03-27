@@ -14,33 +14,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Count Lines of Code (cloc)
-      uses: djdefi/cloc-action@2
-      
+      run: echo cloc $(git rev-parse HEAD) -json | tee -a cloc.json
     - name: Upload cloc output as a build artifact
       uses: actions/upload-artifact@v1
       with:
         name: cloc
-        path: cloc.txt
-        
-    - name: Get cloc output
-      uses: actions/download-artifact@v1
-      with:
-        name: cloc
-    - name: Build JSON
-      env:
-        REPO: ${{ github.repository }}
-      run: |
-        echo '{ "loc": '$( cat cloc.txt | tail -2 | head -1 | grep -oE "[0-9]+$" )', "time": "'$(date -u --iso-8601=seconds)'", "repo": "'$REPO'" }' > loc.json
-    - name: Upload JSON
-      uses: actions/upload-artifact@v1
-      with:
-        name: JSON
-        path: loc.json
-    - name: Get JSON
-      uses: actions/download-artifact@v1
-      with:
-        name: JSON
+        path: cloc.json
     - name: Send to API
       env:
         endpoint: ${{ secrets.endpoint }}
-      run: 'curl --header "Content-Type: application/json" -d @loc.json $endpoint'
+        reponame: ${{ github.repository }}
+      run: 'curl --header "Content-Type: application/json" -d @cloc.json $endpoint?$reponame'
